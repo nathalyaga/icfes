@@ -1,0 +1,321 @@
+<div id="content-wrapper">
+
+    <button type="button" class="btn btn-success" (click)="CrearProducto(mdCrearProducto)">Crear</button>
+    <div class="col-md-10 mx-auto col-sm-12 mt-3">
+        <div class="card mb-3">
+
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                CONSULTA
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive d-flex justify-content-around">
+                    <table
+                        class="table table-bordered table-hover table-sm table table-bordered table-striped table-responsive text-center">
+
+                        <thead>
+                            <tr class="text-capitalize">
+                                <th>Actividad</th>
+                                <th>Estado</th>
+                                <th>Precio</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let producto of productos; let i = index">
+                                <td> {{ producto.idProducto }} </td>
+                                <td> {{ producto.nombreProducto }} </td>
+                                <td> {{ producto.precio }} </td>
+                                <td>
+                                    <button type="button" class="btn btn-warning"
+                                        (click)="EliminarProducto(producto)">Eliminar</button>
+                                    <button type="button" class="btn btn-primary"
+                                        (click)="EditarProducto(producto,mdEditarProducto)">Editar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal editar  -->
+<ng-template #mdEditarProducto let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Editar Producto</h5>
+        <button type="button" class="close" (click)="modal.close()">
+            <span>&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="form" (ngSubmit)="guardarCambios()">
+            <div class="form-group row">
+                <label for="nombreProducto" class="col-sm-3 col-form-label">Nombre</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="nombreProducto" placeholder="Nombre del producto"
+                        required="required" formControlName="nombreProducto">
+                    <div [hidden]="form.controls['nombreProducto'].valid  || form.controls['nombreProducto'].pristine">
+                        <div class="ng-invalid-feedback">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- precio -->
+            <div class="form-group row">
+                <label for="precio" class="col-sm-3 col-form-label">Precio</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" id="precio" placeholder="precio" required="required"
+                        formControlName="precio">
+                    <div [hidden]="form.controls['precio'].valid  || form.controls['precio'].pristine">
+                        <div class="ng-invalid-feedback">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- tipoMaterial -->
+            <div class="form-group row">
+                <label for="tipoMaterial" class="col-sm-3 col-form-label">Tipo Material</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="tipoMaterial" placeholder="tipoMaterial"
+                        required="required" formControlName="tipoMaterial">
+                    <div [hidden]="form.controls['tipoMaterial'].valid  || form.controls['tipoMaterial'].pristine">
+                        <div class="ng-invalid-feedback">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- tipoProducto -->
+            <div class="form-group row">
+                <label for="tipoProducto" class="col-sm-3 col-form-label">Tipo Producto</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="tipoProducto" placeholder="tipoProducto"
+                        required="required" formControlName="tipoProducto">
+                    <div [hidden]="form.controls['tipoProducto'].valid  || form.controls['tipoProducto'].pristine">
+                        <div class="ng-invalid-feedback">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- cantidadDisponible -->
+            <div class="form-group row">
+                <label for="cantidadDisponible" class="col-sm-3 col-form-label">Cantidad Disponible</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" id="cantidadDisponible" placeholder="cantidadDisponible"
+                        required="required" formControlName="cantidadDisponible">
+                    <div
+                        [hidden]="form.controls['cantidadDisponible'].valid  || form.controls['cantidadDisponible'].pristine">
+                        <div class="ng-invalid-feedback">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- peso -->
+            <div class="form-group row">
+                <label for="peso" class="col-sm-3 col-form-label">Peso</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="peso" placeholder="peso" required="required"
+                        formControlName="peso">
+                    <div [hidden]="form.controls['peso'].valid  || form.controls['peso'].pristine">
+                        <div class="ng-invalid-feedback">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- medidas -->
+            <div class="form-group row">
+                <label for="medidas" class="col-sm-3 col-form-label">Medidas</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="medidas" placeholder="medidas" required="required"
+                        formControlName="medidas">
+                    <div [hidden]="form.controls['medidas'].valid  || form.controls['medidas'].pristine">
+                        <div class="ng-invalid-feedback">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- color -->
+            <div class="form-group row">
+                <label for="color" class="col-sm-3 col-form-label">Color</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="color" placeholder="color" required="required"
+                        formControlName="color">
+                    <div [hidden]="form.controls['color'].valid  || form.controls['color'].pristine">
+                        <div class="ng-invalid-feedback">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-success mr-2" type="submit">
+                <i class="fa fa-save"></i>
+                Guardar
+            </button>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="modal.close()">
+            <i class="fa fa-close"></i>
+            Cerrar
+        </button>
+    </div>
+</ng-template>
+
+
+<!-- modal crear  -->
+<ng-template #mdCrearProducto let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Crear Producto</h5>
+        <button type="button" class="close" (click)="modal.close()">
+            <span>&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="form" (ngSubmit)="GuardarProducto()">
+            <div class="form-group row">
+                <label for="nombreProducto" class="col-sm-3 col-form-label">Nombre</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="nombreProducto" placeholder="Nombre del producto"
+                        required="required" formControlName="nombreProducto">
+                    <div [hidden]="form.controls['nombreProducto'].valid  || form.controls['nombreProducto'].pristine">
+                        <div class="ng-invalid-feedback">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- precio -->
+            <div class="form-group row">
+                <label for="precio" class="col-sm-3 col-form-label">Precio</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" id="precio" placeholder="precio" required="required"
+                        formControlName="precio">
+                    <div [hidden]="form.controls['precio'].valid  || form.controls['precio'].pristine">
+                        <div class="ng-invalid-feedback">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- tipoMaterial -->
+            <div class="form-group row">
+                <label for="tipoMaterial" class="col-sm-3 col-form-label">Tipo Material</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="tipoMaterial" placeholder="tipoMaterial"
+                        required="required" formControlName="tipoMaterial">
+                    <div [hidden]="form.controls['tipoMaterial'].valid  || form.controls['tipoMaterial'].pristine">
+                        <div class="ng-invalid-feedback">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- tipoProducto -->
+            <div class="form-group row">
+                <label for="tipoProducto" class="col-sm-3 col-form-label">Tipo Producto</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="tipoProducto" placeholder="tipoProducto"
+                        required="required" formControlName="tipoProducto">
+                    <div [hidden]="form.controls['tipoProducto'].valid  || form.controls['tipoProducto'].pristine">
+                        <div class="ng-invalid-feedback">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- cantidadDisponible -->
+            <div class="form-group row">
+                <label for="cantidadDisponible" class="col-sm-3 col-form-label">Cantidad Disponible</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" id="cantidadDisponible" placeholder="cantidadDisponible"
+                        required="required" formControlName="cantidadDisponible">
+                    <div
+                        [hidden]="form.controls['cantidadDisponible'].valid  || form.controls['cantidadDisponible'].pristine">
+                        <div class="ng-invalid-feedback">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- peso -->
+            <div class="form-group row">
+                <label for="peso" class="col-sm-3 col-form-label">Peso</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="peso" placeholder="peso" required="required"
+                        formControlName="peso">
+                    <div [hidden]="form.controls['peso'].valid  || form.controls['peso'].pristine">
+                        <div class="ng-invalid-feedback">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- medidas -->
+            <div class="form-group row">
+                <label for="medidas" class="col-sm-3 col-form-label">Medidas</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="medidas" placeholder="medidas" required="required"
+                        formControlName="medidas">
+                    <div [hidden]="form.controls['medidas'].valid  || form.controls['medidas'].pristine">
+                        <div class="ng-invalid-feedback">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- color -->
+            <div class="form-group row">
+                <label for="color" class="col-sm-3 col-form-label">Color</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="color" placeholder="color" required="required"
+                        formControlName="color">
+                    <div [hidden]="form.controls['color'].valid  || form.controls['color'].pristine">
+                        <div class="ng-invalid-feedback">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-success mr-2" type="submit">
+                <i class="fa fa-save"></i>
+                Guardar
+            </button>
+
+        </form>
+
+
+
+
+
+    </div>
+    <div class="modal-footer">
+
+        <button class="btn btn-secondary" (click)="modal.close()">
+            <i class="fa fa-close"></i>
+            Cerrar
+        </button>
+    </div>
+</ng-template>
